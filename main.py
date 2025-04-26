@@ -13,7 +13,7 @@ import json
 #   !removeadmin <user> - Removes a user from the list of admins. The admins should be stored in preferences.json
 #   !setemoji <emoji> - Changes the emoji that the bot reacts with for a given server. The emoji per server should be stored in preferences.json. The default emoji is the bread emoji
 #   !disable - Kills the bot
-# The bot's token should be stored in preferences.json
+# The bot's token should be an environment variable
 # The bot's prefix should be stored in preferences.json
 # If the preferences.json file doesn't exist, create it with the default values
 # When the bot is added to a server, it should react to every message with the default emoji. The bot should store an individual emoji for each different server in preferences.json
@@ -27,7 +27,6 @@ try:
         preferences = json.load(f)
 except FileNotFoundError:
     preferences = {
-        'token': '',
         'prefix': '!',
         'admins': [],
         'ignored_users': [],
@@ -40,7 +39,7 @@ except FileNotFoundError:
 
 
 # Load the bot's settings
-token = preferences['token']
+token = os.environ['TOKEN']
 prefix = preferences['prefix']
 admins = preferences['admins']
 ignored_users = preferences['ignored_users']
@@ -91,7 +90,6 @@ class AdminCommands (commands.Cog):
         ignored_users.append(user.id)
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -114,7 +112,6 @@ class AdminCommands (commands.Cog):
         ignored_users.remove(user.id)
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -138,7 +135,6 @@ class AdminCommands (commands.Cog):
         ignored_channels.append(channel.id)
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -162,7 +158,6 @@ class AdminCommands (commands.Cog):
         ignored_channels.remove(channel.id)
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -181,7 +176,6 @@ class AdminCommands (commands.Cog):
         emoji_per_server[ctx.guild.id] = emoji
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -206,7 +200,6 @@ class AdminCommands (commands.Cog):
         bot.command_prefix = prefix
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -230,7 +223,6 @@ class AdminCommands (commands.Cog):
         admins.append(user.id)
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
@@ -254,7 +246,6 @@ class AdminCommands (commands.Cog):
         admins.remove(user.id)
         with open('preferences.json', 'w') as f:
             json.dump({
-                'token': token,
                 'prefix': prefix,
                 'admins': admins,
                 'ignored_users': ignored_users,
